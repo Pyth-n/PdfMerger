@@ -4,30 +4,44 @@ from tkinter.filedialog import askopenfilenames
 from tkinter import messagebox as mb
 from loggingC import logging
 
-files = []
-labels = []
+labels = {}
 filesDict = {}
 
 # gets the path of opened files, stores in files[] global
 def openFile():
+    isTampered = False
+    
     filepath = askopenfilenames(
             filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
         )
     if not filepath:
         return
     for path in filepath:
-        files.append(path)
+        if path in filesDict:
+            logging.info(path + ' is already in dict!')
+            continue
         filesDict[path] = os.path.basename(path)
+        isTampered = True
 
-    makeLabels()
+    if isTampered:
+        print('TAMPERED!')
+        updateLabels()
 
-def makeLabels():
-    print(files)
-
-    for i in range(len(files)):
-        logging.info(files[i])
-        label = tk.Label()
+# update the labels when pdfs are selected
+def updateLabels():
+    for x in labels:
+        tmp = labels[x]
+        logging.debug(f'deleting {labels[x]}')
+        tmp.destroy()
     
+    i = 1
+    for x in filesDict:
+        # log key and value
+        logging.debug(f'key: {x}\tValue: {filesDict[x]}')
+        label = tk.Label(master=labelFrame, text=f'{filesDict[x]}')
+        label.grid(row=i, column=1)
+        labels[x] = label
+        i += 1
 
 # configure window
 window = tk.Tk()
@@ -48,9 +62,6 @@ openButton.grid(row=0, column=1, sticky='e')
 
 labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
 labelFrame.grid(row=1, column=0, sticky='n')
-
-label = tk.Label(master=labelFrame, text="test")
-label.grid(row=0, column=0, sticky='')
 
 def show():
     window.attributes('-topmost', 1)
