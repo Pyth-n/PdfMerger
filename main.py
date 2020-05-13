@@ -1,5 +1,6 @@
-import os, logging
+import os
 import tkinter as tk
+from loggingC import logging
 
 # configure window
 window = tk.Tk()
