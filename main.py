@@ -46,7 +46,7 @@ def updateLabels():
 # configure window
 window = tk.Tk()
 window.title('PDF Merger')
-window.rowconfigure([0,1], weight=1, minsize=100)
+window.rowconfigure([0,1,2], weight=1, minsize=100)
 window.columnconfigure([0], weight=1, minsize=300)
 
 openFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
@@ -62,6 +62,15 @@ openButton.grid(row=0, column=1, sticky='e')
 
 labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
 labelFrame.grid(row=1, column=0, sticky='n')
+
+actionFrame = tk.Frame(master=window)
+actionFrame.grid(row=2, column=0, sticky='')
+
+mergeButton = tk.Button(master=actionFrame, text='Merge')
+mergeButton.grid(row=0, column=0)
+
+mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
+mergeLabel.grid(row=1, column=0)
 
 def show():
     window.attributes('-topmost', 1)
