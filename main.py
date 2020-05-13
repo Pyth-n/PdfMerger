@@ -1,4 +1,4 @@
-import os
+import os, PyPDF2
 import tkinter as tk
 from tkinter.filedialog import askopenfilenames
 from tkinter import messagebox as mb
@@ -6,6 +6,8 @@ from loggingC import logging
 
 labels = {}
 filesDict = {}
+filesHeap = {}
+merger = PyPDF2.PdfFileMerger()
 
 # gets the path of opened files, stores in files[] global
 def openFile():
@@ -26,6 +28,23 @@ def openFile():
     if isTampered:
         print('TAMPERED!')
         updateLabels()
+
+def merge():
+    for x in filesDict:
+        tmp = open(x, 'rb')
+        merger.append(tmp)
+        filesHeap[x] = tmp
+
+    # save file
+    with open('love.pdf', 'wb') as f:
+        merger.write(f)
+
+    # close the files
+    for x in filesHeap:
+        tmp = filesHeap[x]
+        tmp.close()
+    filesHeap.clear()
+    
 
 # update the labels when pdfs are selected
 def updateLabels():
@@ -66,7 +85,7 @@ labelFrame.grid(row=1, column=0, sticky='n')
 actionFrame = tk.Frame(master=window)
 actionFrame.grid(row=2, column=0, sticky='')
 
-mergeButton = tk.Button(master=actionFrame, text='Merge')
+mergeButton = tk.Button(master=actionFrame, text='Merge', command=merge)
 mergeButton.grid(row=0, column=0)
 
 mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
