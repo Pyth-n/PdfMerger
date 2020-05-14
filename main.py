@@ -30,6 +30,11 @@ def openFile():
         updateLabels()
 
 def merge():
+    if len(filesDict) < 2:
+        logging.warning('Less than 2 files selected')
+        mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
+        return
+
     for x in filesDict:
         tmp = open(x, 'rb')
         merger.append(tmp)
