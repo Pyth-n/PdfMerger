@@ -19,13 +19,12 @@ def openFile():
         return
     for path in filepath:
         if path in filesDict:
-            logging.info(path + ' is already in dict!')
+            logging.debug(path + ' is already in dict!')
             continue
         filesDict[path] = os.path.basename(path)
         isTampered = True
 
     if isTampered:
-        print('TAMPERED!')
         updateLabels()
 
 # saves file to user's chosen path. clears memory when done
