@@ -48,6 +48,8 @@ def saveFile(merger):
     # clear the heap
     filesHeap.clear()
 
+    mb.showinfo('Saved Successfully', f'File was saved at {filepath}')
+
 def merge():
     # create a merger instance
     merger = PyPDF2.PdfFileMerger()
