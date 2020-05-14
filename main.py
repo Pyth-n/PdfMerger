@@ -1,13 +1,12 @@
 import os, PyPDF2
 import tkinter as tk
-from tkinter.filedialog import askopenfilenames
+from tkinter.filedialog import askopenfilenames, asksaveasfilename
 from tkinter import messagebox as mb
 from loggingC import logging
 
 labels = {}
 filesDict = {}
 filesHeap = {}
-merger = PyPDF2.PdfFileMerger()
 
 # gets the path of opened files, stores in files[] global
 def openFile():
@@ -29,26 +28,44 @@ def openFile():
         print('TAMPERED!')
         updateLabels()
 
-def merge():
-    if len(filesDict) < 2:
-        logging.warning('Less than 2 files selected')
-        mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
+# saves file to user's chosen path. clears memory when done
+def saveFile(merger):
+    # obtains the path of where the user wants to save
+    filepath = asksaveasfilename(
+        filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
+    )
+    if not filepath:
+        logging.warning("File save cancelled")
         return
-
-    for x in filesDict:
-        tmp = open(x, 'rb')
-        merger.append(tmp)
-        filesHeap[x] = tmp
-
     # save file
-    with open('love.pdf', 'wb') as f:
+    with open(filepath, 'wb') as f:
         merger.write(f)
 
     # close the files
     for x in filesHeap:
         tmp = filesHeap[x]
         tmp.close()
+    # clear the heap
     filesHeap.clear()
+
+def merge():
+    # create a merger instance
+    merger = PyPDF2.PdfFileMerger()
+
+    # show warning if less than 2 items are selected
+    if len(filesDict) < 2:
+        logging.warning('Less than 2 files selected')
+        mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
+        return
+
+    # add opened files to heap, can't close yet until its merged
+    for x in filesDict:
+        tmp = open(x, 'rb')
+        merger.append(tmp)
+        filesHeap[x] = tmp
+
+    saveFile(merger)
+    merger.close()
     
 
 # update the labels when pdfs are selected
