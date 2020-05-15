@@ -2,7 +2,7 @@ import os, PyPDF2
 import tkinter as tk
 from tkinter.filedialog import askopenfilenames, asksaveasfilename
 from tkinter import messagebox as mb
-from loggingC import logging
+from pdfmerger.custom.loggingC import logging
 
 labels = {}
 filesDict = {}
