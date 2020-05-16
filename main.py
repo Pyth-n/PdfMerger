@@ -85,19 +85,6 @@
 #         labels[x] = label
 #         i += 1
 
-# # configure window
-# window = tk.Tk()
-# window.title('PDF Merger')
-# window.rowconfigure([0,1,2], weight=1, minsize=100)
-# window.columnconfigure([0], weight=1, minsize=300)
-
-# openFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-# openFrame.grid(row=0, column=0, sticky='')
-
-# # TODO: Label
-# text = tk.Label(master=openFrame,text="Open PDF files \N{RIGHTWARDS BLACK ARROW}")
-# text.grid(row=0, column=0, sticky='nsew')
-
 # # TODO: open file button
 # openButton = tk.Button(master=openFrame,text="Open", command=openFile)
 # openButton.grid(row=0, column=1, sticky='e')
