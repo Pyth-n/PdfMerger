@@ -1,125 +1,125 @@
-import os, PyPDF2
-import tkinter as tk
-from tkinter.filedialog import askopenfilenames, asksaveasfilename
-from tkinter import messagebox as mb
-from pdfmerger.custom.loggingC import logging
+# import os, PyPDF2
+# import tkinter as tk
+# from tkinter.filedialog import askopenfilenames, asksaveasfilename
+# from tkinter import messagebox as mb
+# from pdfmerger.custom.loggingC import logging
 
-labels = {}
-filesDict = {}
-filesHeap = {}
+# labels = {}
+# filesDict = {}
+# filesHeap = {}
 
-# gets the path of opened files, stores in files[] global
-def openFile():
-    isTampered = False
+# # gets the path of opened files, stores in files[] global
+# def openFile():
+#     isTampered = False
     
-    filepath = askopenfilenames(
-            filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
-        )
-    if not filepath:
-        return
-    for path in filepath:
-        if path in filesDict:
-            logging.debug(path + ' is already in dict!')
-            continue
-        filesDict[path] = os.path.basename(path)
-        isTampered = True
+#     filepath = askopenfilenames(
+#             filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
+#         )
+#     if not filepath:
+#         return
+#     for path in filepath:
+#         if path in filesDict:
+#             logging.debug(path + ' is already in dict!')
+#             continue
+#         filesDict[path] = os.path.basename(path)
+#         isTampered = True
 
-    if isTampered:
-        updateLabels()
+#     if isTampered:
+#         updateLabels()
 
-# saves file to user's chosen path. clears memory when done
-def saveFile(merger):
-    # obtains the path of where the user wants to save
-    filepath = asksaveasfilename(
-        filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
-    )
-    if not filepath:
-        logging.warning("File save cancelled")
-        return
-    # save file
-    with open(filepath, 'wb') as f:
-        merger.write(f)
+# # saves file to user's chosen path. clears memory when done
+# def saveFile(merger):
+#     # obtains the path of where the user wants to save
+#     filepath = asksaveasfilename(
+#         filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
+#     )
+#     if not filepath:
+#         logging.warning("File save cancelled")
+#         return
+#     # save file
+#     with open(filepath, 'wb') as f:
+#         merger.write(f)
 
-    # close the files
-    for x in filesHeap:
-        tmp = filesHeap[x]
-        tmp.close()
-    # clear the heap
-    filesHeap.clear()
+#     # close the files
+#     for x in filesHeap:
+#         tmp = filesHeap[x]
+#         tmp.close()
+#     # clear the heap
+#     filesHeap.clear()
 
-    mb.showinfo('Saved Successfully', f'File was saved at {filepath}')
+#     mb.showinfo('Saved Successfully', f'File was saved at {filepath}')
 
-def merge():
-    # create a merger instance
-    merger = PyPDF2.PdfFileMerger()
+# def merge():
+#     # create a merger instance
+#     merger = PyPDF2.PdfFileMerger()
 
-    # show warning if less than 2 items are selected
-    if len(filesDict) < 2:
-        logging.warning('Less than 2 files selected')
-        mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
-        return
+#     # show warning if less than 2 items are selected
+#     if len(filesDict) < 2:
+#         logging.warning('Less than 2 files selected')
+#         mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
+#         return
 
-    # add opened files to heap, can't close yet until its merged
-    for x in filesDict:
-        tmp = open(x, 'rb')
-        merger.append(tmp)
-        filesHeap[x] = tmp
+#     # add opened files to heap, can't close yet until its merged
+#     for x in filesDict:
+#         tmp = open(x, 'rb')
+#         merger.append(tmp)
+#         filesHeap[x] = tmp
 
-    saveFile(merger)
-    merger.close()
+#     saveFile(merger)
+#     merger.close()
     
 
-# update the labels when pdfs are selected
-def updateLabels():
-    for x in labels:
-        tmp = labels[x]
-        logging.debug(f'deleting {labels[x]}')
-        tmp.destroy()
+# # update the labels when pdfs are selected
+# def updateLabels():
+#     for x in labels:
+#         tmp = labels[x]
+#         logging.debug(f'deleting {labels[x]}')
+#         tmp.destroy()
     
-    i = 1
-    for x in filesDict:
-        # log key and value
-        logging.debug(f'key: {x}\tValue: {filesDict[x]}')
-        label = tk.Label(master=labelFrame, text=f'{filesDict[x]}')
-        label.grid(row=i, column=1)
-        labels[x] = label
-        i += 1
+#     i = 1
+#     for x in filesDict:
+#         # log key and value
+#         logging.debug(f'key: {x}\tValue: {filesDict[x]}')
+#         label = tk.Label(master=labelFrame, text=f'{filesDict[x]}')
+#         label.grid(row=i, column=1)
+#         labels[x] = label
+#         i += 1
 
-# configure window
-window = tk.Tk()
-window.title('PDF Merger')
-window.rowconfigure([0,1,2], weight=1, minsize=100)
-window.columnconfigure([0], weight=1, minsize=300)
+# # configure window
+# window = tk.Tk()
+# window.title('PDF Merger')
+# window.rowconfigure([0,1,2], weight=1, minsize=100)
+# window.columnconfigure([0], weight=1, minsize=300)
 
-openFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-openFrame.grid(row=0, column=0, sticky='')
+# openFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
+# openFrame.grid(row=0, column=0, sticky='')
 
-# TODO: Label
-text = tk.Label(master=openFrame,text="Open PDF files \N{RIGHTWARDS BLACK ARROW}")
-text.grid(row=0, column=0, sticky='nsew')
+# # TODO: Label
+# text = tk.Label(master=openFrame,text="Open PDF files \N{RIGHTWARDS BLACK ARROW}")
+# text.grid(row=0, column=0, sticky='nsew')
 
-# TODO: open file button
-openButton = tk.Button(master=openFrame,text="Open", command=openFile)
-openButton.grid(row=0, column=1, sticky='e')
+# # TODO: open file button
+# openButton = tk.Button(master=openFrame,text="Open", command=openFile)
+# openButton.grid(row=0, column=1, sticky='e')
 
-labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-labelFrame.grid(row=1, column=0, sticky='n')
+# labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
+# labelFrame.grid(row=1, column=0, sticky='n')
 
-actionFrame = tk.Frame(master=window)
-actionFrame.grid(row=2, column=0, sticky='')
+# actionFrame = tk.Frame(master=window)
+# actionFrame.grid(row=2, column=0, sticky='')
 
-mergeButton = tk.Button(master=actionFrame, text='Merge', command=merge)
-mergeButton.grid(row=0, column=0)
+# mergeButton = tk.Button(master=actionFrame, text='Merge', command=merge)
+# mergeButton.grid(row=0, column=0)
 
-mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
-mergeLabel.grid(row=1, column=0)
+# mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
+# mergeLabel.grid(row=1, column=0)
 
-def show():
-    window.attributes('-topmost', 1)
-    window.attributes('-topmost', 0)
-    mb.showinfo(title='welcome', message='success')
+# def show():
+#     window.attributes('-topmost', 1)
+#     window.attributes('-topmost', 0)
+#     mb.showinfo(title='welcome', message='success')
 
-#window.after(500, show)
-window.mainloop()
+# #window.after(500, show)
+# window.mainloop()
 
 
