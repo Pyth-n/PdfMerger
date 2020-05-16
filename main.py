@@ -4,29 +4,6 @@
 # from tkinter import messagebox as mb
 # from pdfmerger.custom.loggingC import logging
 
-# labels = {}
-# filesDict = {}
-# filesHeap = {}
-
-# # gets the path of opened files, stores in files[] global
-# def openFile():
-#     isTampered = False
-    
-#     filepath = askopenfilenames(
-#             filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
-#         )
-#     if not filepath:
-#         return
-#     for path in filepath:
-#         if path in filesDict:
-#             logging.debug(path + ' is already in dict!')
-#             continue
-#         filesDict[path] = os.path.basename(path)
-#         isTampered = True
-
-#     if isTampered:
-#         updateLabels()
-
 # # saves file to user's chosen path. clears memory when done
 # def saveFile(merger):
 #     # obtains the path of where the user wants to save
@@ -67,23 +44,6 @@
 
 #     saveFile(merger)
 #     merger.close()
-    
-
-# # update the labels when pdfs are selected
-# def updateLabels():
-#     for x in labels:
-#         tmp = labels[x]
-#         logging.debug(f'deleting {labels[x]}')
-#         tmp.destroy()
-    
-#     i = 1
-#     for x in filesDict:
-#         # log key and value
-#         logging.debug(f'key: {x}\tValue: {filesDict[x]}')
-#         label = tk.Label(master=labelFrame, text=f'{filesDict[x]}')
-#         label.grid(row=i, column=1)
-#         labels[x] = label
-#         i += 1
 
 # def show():
 #     window.attributes('-topmost', 1)

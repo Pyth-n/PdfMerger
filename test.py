@@ -5,6 +5,7 @@ from pdfmerger.gui.window import Window
 from pdfmerger.gui.frame import Frame
 from pdfmerger.gui.label import Label
 from pdfmerger.gui.button import Button
+from pdfmerger.gui.actions import openFile, setInstance
 
 # main window
 a = Window('PDF Merger')
@@ -17,7 +18,7 @@ l = Label(f.getFrame(), \
     'Open PDF files \N{RIGHTWARDS BLACK ARROW}')
 l.grid(0,0)
 
-b = Button(f.getFrame(), 'Open')
+b = Button(f.getFrame(), 'Open', openFile)
 b.grid(0, 1)
 
 
@@ -37,6 +38,9 @@ mergeButton.grid(0, 0)
 l3 = Label(actionFrame.getFrame(), \
     '2+ PDFs required', 'red')
 l3.grid(1, 0)
+
+# pass these instances to the gui package
+setInstance(a.getWindow(), labelFrame.getFrame())
 
 # main window loop
 a.mainloop()
