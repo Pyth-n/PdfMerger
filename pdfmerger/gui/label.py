@@ -2,11 +2,12 @@ import tkinter as tk
 from ..lib.loggingC import logging as l
 
 class Label:
-    def __init__(self, master, text):
+    def __init__(self, master, text, fg = 'black'):
         self._master = master
         self._text = text
+        self._fg = fg
 
-        self._label = tk.Label(master=self._master,text=self._text)
+        self._label = tk.Label(master=self._master,text=self._text, fg = self._fg)
     
     def getLabel(self):
         return self._label
