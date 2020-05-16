@@ -24,5 +24,3 @@ class Frame:
         self._column = column
         self._sticky = sticky
         self.getFrame().grid(row=self._row, column=self._column, sticky=self._sticky)
-        # text = tk.Label(master=self.getFrame(),text="Open PDF files \N{RIGHTWARDS BLACK ARROW}")
-        # text.grid(row=0, column=0, sticky='nsew')
