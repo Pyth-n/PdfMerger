@@ -85,10 +85,6 @@
 #         labels[x] = label
 #         i += 1
 
-# # TODO: open file button
-# openButton = tk.Button(master=openFrame,text="Open", command=openFile)
-# openButton.grid(row=0, column=1, sticky='e')
-
 # labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
 # labelFrame.grid(row=1, column=0, sticky='n')
 
