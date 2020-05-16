@@ -85,18 +85,6 @@
 #         labels[x] = label
 #         i += 1
 
-# labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-# labelFrame.grid(row=1, column=0, sticky='n')
-
-# actionFrame = tk.Frame(master=window)
-# actionFrame.grid(row=2, column=0, sticky='')
-
-# mergeButton = tk.Button(master=actionFrame, text='Merge', command=merge)
-# mergeButton.grid(row=0, column=0)
-
-# mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
-# mergeLabel.grid(row=1, column=0)
-
 # def show():
 #     window.attributes('-topmost', 1)
 #     window.attributes('-topmost', 0)
