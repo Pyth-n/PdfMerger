@@ -27,17 +27,20 @@ labelFrame = Frame(a.getWindow(), 'raised', 1)
 labelFrame.grid(1, 0, 'n')
 
 # merge button frame
-actionFrame = Frame(a.getWindow(), 'raised', 0)
+actionFrame = Frame(a.getWindow(), 'raised', 1)
 actionFrame.grid(2, 0, 's')
 
 mergeButton = Button(actionFrame.getFrame(), \
     'Merge', merge)
+mergeButton.grid(0, 0, 'w')
 
-mergeButton.grid(0, 0)
+clearButton = Button(actionFrame.getFrame(), \
+    'Clear')
+clearButton.grid(0, 1, 'e')
 
 l3 = Label(actionFrame.getFrame(), \
     '2+ PDFs required', 'red')
-l3.grid(1, 0)
+l3.grid(1, 0, 'e')
 
 # pass these instances to the gui package
 setInstance(a.getWindow(), labelFrame.getFrame())
