@@ -26,6 +26,7 @@ Then pass the `main.py` file as an argument to your Python 3 interpreter through
 ## TODO:
 * Code
   * Refactor
+  * Make a CLI script as a GUI replacement
 * Features
   * Drag and Drop (no ETA, dependant on stable release through Tkinter)
   * Modify order of PDFs to export
