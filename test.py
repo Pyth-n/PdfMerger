@@ -48,7 +48,5 @@ l3.grid(1, 0, 'e')
 # pass these instances to the gui package
 setInstance(a.getWindow(), labelFrame.getFrame())
 
-#a.getWindow().grid_columnconfigure(2, weight = 1, minsize = 100)
-
 # main window loop
 a.mainloop()
