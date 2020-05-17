@@ -2,4 +2,4 @@ labels = {}
 filesDict = {}
 filesHeap = {}
 
-parentInstance = []
+parentInstance = None

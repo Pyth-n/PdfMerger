@@ -6,12 +6,12 @@ from ..lib.loggingC import logging
 
 merger = None
 
-def setInstance(windowI, frame):
+def setInstance(instances):
     '''
     imports window and frame instance from top-level script
     '''
-    parentInstance.append(windowI)
-    parentInstance.append(frame)
+    global parentInstance
+    parentInstance = instances
 
 def openFile():
     isTampered = False
@@ -19,8 +19,9 @@ def openFile():
     filepath = askopenfilenames(
             filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
         )
-    if not filepath:
-        return
+    _elevateWindow()
+    if not filepath:     
+        return 
     for path in filepath:
         if path in filesDict:
             logging.debug(path + ' is already in dict!')
@@ -74,6 +75,7 @@ def _savePdf(merger):
     filepath = asksaveasfilename(
         filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
     )
+    _elevateWindow()
     if not filepath:
         return False
 
@@ -102,3 +104,6 @@ def _destroyLabels():
         labels[x].destroy()
 
     labels.clear()
+
+def _elevateWindow():
+    parentInstance[0].focus_force()

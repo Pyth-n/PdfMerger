@@ -44,8 +44,10 @@ l3 = Label(labelFrame2.getFrame(), \
     '2+ PDFs required', 'red')
 l3.grid(1, 0, 'e')
 
+instances = [a.getWindow(), labelFrame.getFrame()]
+
 # pass these instances to the gui package
-setInstance(a.getWindow(), labelFrame.getFrame())
+setInstance(instances)
 
 # main window loop
 a.mainloop()
