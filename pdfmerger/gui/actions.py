@@ -1,5 +1,6 @@
 import os, PyPDF2
 from tkinter.filedialog import askopenfilenames, asksaveasfilename
+from tkinter import messagebox as mb
 from . import labels, filesDict, filesHeap, parentInstance
 from .label import Label
 from ..lib.loggingC import logging
@@ -46,6 +47,11 @@ def clear():
 def merge():
     global merger
 
+    if len(filesDict) < 2:
+        logging.debug('LESS than 2 files')
+        mb.showwarning('Not enough files', 'Please open more than 2 PDF files before merging')
+        _elevateWindow()
+        return
     merger = PyPDF2.PdfFileMerger()
     _heapFiles(merger)
     _closeFiles() or _destroyLabels() if _savePdf(merger) else None
