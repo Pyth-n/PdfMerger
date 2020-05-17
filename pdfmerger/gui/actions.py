@@ -46,8 +46,7 @@ def updateLabels():
 def merge():
     merger = PyPDF2.PdfFileMerger()
     heapFiles(merger)
-    savePdf(merger)
-    closeFiles(merger)
+    closeFiles(merger) if savePdf(merger) else None
 
 def heapFiles(merger):
     '''
@@ -65,12 +64,12 @@ def savePdf(merger):
         filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
     )
     if not filepath:
-        return
+        return False
 
     with open(filepath, 'wb') as f:
         merger.write(f)
 
-    
+    return True
 
 def closeFiles(merger):
     '''
