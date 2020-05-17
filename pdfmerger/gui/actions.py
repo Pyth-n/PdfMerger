@@ -60,11 +60,12 @@ def merge():
 def onClosing():
     if len(filesDict) > 0:
         if mb.askokcancel('Quit', 'Files are loaded, are you sure you want to quit?'):
-            parentInstance[0].destroy()
+            pass
         else:
             _elevateWindow()
-    else:
-        parentInstance[0].destroy()
+            return
+
+    parentInstance[0].destroy()
 
 def _updateLabels():
     for index, file in enumerate(filesDict, start = 1):
