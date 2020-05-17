@@ -27,23 +27,28 @@ labelFrame = Frame(a.getWindow(), 'raised', 1)
 labelFrame.grid(1, 0, 'n')
 
 # merge button frame
-actionFrame = Frame(a.getWindow(), 'raised', 1)
+actionFrame = Frame(a.getWindow(), 'raised')
 actionFrame.grid(2, 0, 's')
 
-mergeButton = Button(actionFrame.getFrame(), \
-    'Merge', merge)
-mergeButton.grid(0, 0, 'w')
+mergeButton = Button(actionFrame.getFrame(),"Merge\n \N{HEAVY CHECK MARK}", merge)
+mergeButton.grid(0, 0, 'w', [20,30], [20, 10])
 
 clearButton = Button(actionFrame.getFrame(), \
-    'Clear')
-clearButton.grid(0, 1, 'e')
+    'Clear\n \N{ERASE TO THE LEFT}')
+clearButton.grid(0, 1, 'e',  [20,30], [20, 10])
 
-l3 = Label(actionFrame.getFrame(), \
+# label frame under actionFrame
+labelFrame2 = Frame(a.getWindow(), 'raised', 1)
+labelFrame2.grid(3, 0, 's')
+
+l3 = Label(labelFrame2.getFrame(), \
     '2+ PDFs required', 'red')
 l3.grid(1, 0, 'e')
 
 # pass these instances to the gui package
 setInstance(a.getWindow(), labelFrame.getFrame())
+
+#a.getWindow().grid_columnconfigure(2, weight = 1, minsize = 100)
 
 # main window loop
 a.mainloop()

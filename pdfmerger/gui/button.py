@@ -14,10 +14,13 @@ class Button:
     def getButton(self):
         return self._button
 
-    def grid(self, row, column, sticky = ''):
+    def grid(self, row, column, sticky = '', x = [0, 0], y = [0, 0]):
         self._row = row
         self._column = column
         self._sticky = sticky
-
-        self.getButton().grid(row = self._row, column = self._column, \
-            sticky = self._sticky)
+        self._ipadx = x[0]
+        self._ipady = y[0]
+        self._padx = x[1]
+        self._pady = y[1]
+        self.getButton().grid(row=self._row, column=self._column, sticky=self._sticky,\
+            ipadx = self._ipadx, ipady = self._ipady, padx = self._padx, pady = self._pady)
