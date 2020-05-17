@@ -1,4 +1,4 @@
-import os
+import os, PyPDF2
 from tkinter.filedialog import askopenfilenames, asksaveasfilename
 from . import labels, filesDict, filesHeap, parentInstance
 from .label import Label
@@ -42,3 +42,43 @@ def updateLabels():
         tmp.grid(i, 0)
         labels[file] = tmp
         i += i
+
+def merge():
+    merger = PyPDF2.PdfFileMerger()
+    heapFiles(merger)
+    savePdf(merger)
+    closeFiles(merger)
+
+def heapFiles(merger):
+    '''
+        opens files and add it to the heap (doesn't close)
+        files are also appended on the merger object
+    '''
+    for x in filesDict:
+        tmp = open(x, 'rb')
+        filesHeap[x] = tmp
+        logging.debug(f'heaped {filesHeap[x]}')
+        merger.append(tmp)
+
+def savePdf(merger):
+    filepath = asksaveasfilename(
+        filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
+    )
+    if not filepath:
+        return
+
+    with open(filepath, 'wb') as f:
+        merger.write(f)
+
+    
+
+def closeFiles(merger):
+    '''
+        Closes the files allocated on heap
+    '''
+    for x in filesHeap:
+        logging.debug(f'closing {filesHeap[x]}')
+        filesHeap[x].close()
+
+    filesHeap.clear()
+    merger.close()

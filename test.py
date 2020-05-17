@@ -5,7 +5,7 @@ from pdfmerger.gui.window import Window
 from pdfmerger.gui.frame import Frame
 from pdfmerger.gui.label import Label
 from pdfmerger.gui.button import Button
-from pdfmerger.gui.actions import openFile, setInstance
+from pdfmerger.gui.actions import openFile, setInstance, merge
 
 # main window
 a = Window('PDF Merger')
@@ -31,7 +31,7 @@ actionFrame = Frame(a.getWindow(), 'raised', 0)
 actionFrame.grid(2, 0, 's')
 
 mergeButton = Button(actionFrame.getFrame(), \
-    'Merge')
+    'Merge', merge)
 
 mergeButton.grid(0, 0)
 
