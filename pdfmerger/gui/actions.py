@@ -34,14 +34,13 @@ def updateLabels():
         tmp = labels[x]
         tmp.getLabel().destroy()
 
-    i = 1
-    for file in filesDict:
+    for index, file in enumerate(filesDict, start = 1):
         logging.info(filesDict[file])
 
+        # the master of this label should be labelFrame
         tmp = Label(parentInstance[1], filesDict[file])
-        tmp.grid(i, 0)
+        tmp.grid(index, 0)
         labels[file] = tmp
-        i += i
 
 def merge():
     merger = PyPDF2.PdfFileMerger()
