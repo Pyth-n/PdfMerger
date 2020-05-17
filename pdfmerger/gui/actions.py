@@ -33,6 +33,7 @@ def merge():
     merger = PyPDF2.PdfFileMerger()
     _heapFiles(merger)
     _closeFiles(merger) if _savePdf(merger) else None
+    merger.close()
 
 def _updateLabels():
     for x in labels:
@@ -45,7 +46,7 @@ def _updateLabels():
         # the master of this label should be labelFrame
         tmp = Label(parentInstance[1], filesDict[file])
         tmp.grid(index, 0)
-        labels[file] = tmp
+        labels[file] = tmp.getLabel()
 
 def _heapFiles(merger):
     '''
@@ -79,4 +80,13 @@ def _closeFiles(merger):
         filesHeap[x].close()
 
     filesHeap.clear()
-    merger.close()
+
+def _destroyLabels():
+    '''
+    Destroys the labels that show the files open
+    '''
+    for x in labels:
+        logging.debug(f'destroying {labels[x]}')
+        labels[x].destroy()
+
+    labels.clear()
