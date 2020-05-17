@@ -1,125 +1,55 @@
-import os, PyPDF2
-import tkinter as tk
-from tkinter.filedialog import askopenfilenames, asksaveasfilename
-from tkinter import messagebox as mb
-from loggingC import logging
+if __name__ != '__main__':
+    raise Exception('Not importable!')
 
-labels = {}
-filesDict = {}
-filesHeap = {}
+from pdfmerger.gui.window import Window
+from pdfmerger.gui.frame import Frame
+from pdfmerger.gui.label import Label
+from pdfmerger.gui.button import Button
+from pdfmerger.gui.actions import openFile, setInstance, merge, clear, onClosing
 
-# gets the path of opened files, stores in files[] global
-def openFile():
-    isTampered = False
-    
-    filepath = askopenfilenames(
-            filetypes=[("PDF Files", "*.PDF"), ("All Files", "*.*")]
-        )
-    if not filepath:
-        return
-    for path in filepath:
-        if path in filesDict:
-            logging.debug(path + ' is already in dict!')
-            continue
-        filesDict[path] = os.path.basename(path)
-        isTampered = True
+# main window
+a = Window('PDF Merger')
 
-    if isTampered:
-        updateLabels()
+# open file frame
+f = Frame(a.getWindow(), 'raised', 3)
+f.grid(0, 0, 's')
 
-# saves file to user's chosen path. clears memory when done
-def saveFile(merger):
-    # obtains the path of where the user wants to save
-    filepath = asksaveasfilename(
-        filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
-    )
-    if not filepath:
-        logging.warning("File save cancelled")
-        return
-    # save file
-    with open(filepath, 'wb') as f:
-        merger.write(f)
+l = Label(f.getFrame(), \
+    'Open PDF files \N{RIGHTWARDS BLACK ARROW}')
+l.grid(0,0)
 
-    # close the files
-    for x in filesHeap:
-        tmp = filesHeap[x]
-        tmp.close()
-    # clear the heap
-    filesHeap.clear()
+b = Button(f.getFrame(), 'Open', openFile)
+b.grid(0, 1)
 
-    mb.showinfo('Saved Successfully', f'File was saved at {filepath}')
+# list of files frame
+labelFrame = Frame(a.getWindow(), 'raised', 1)
+labelFrame.grid(1, 0, 'n')
 
-def merge():
-    # create a merger instance
-    merger = PyPDF2.PdfFileMerger()
+# merge button frame
+actionFrame = Frame(a.getWindow(), 'raised')
+actionFrame.grid(2, 0, 's')
 
-    # show warning if less than 2 items are selected
-    if len(filesDict) < 2:
-        logging.warning('Less than 2 files selected')
-        mb.showerror('Merge Error', 'Must merge 2 or more PDF files')
-        return
+mergeButton = Button(actionFrame.getFrame(),"Merge\n \N{HEAVY CHECK MARK}", merge)
+mergeButton.grid(0, 0, 'w', [20,30], [20, 10])
 
-    # add opened files to heap, can't close yet until its merged
-    for x in filesDict:
-        tmp = open(x, 'rb')
-        merger.append(tmp)
-        filesHeap[x] = tmp
+clearButton = Button(actionFrame.getFrame(), \
+    'Clear\n \N{ERASE TO THE LEFT}', clear)
+clearButton.grid(0, 1, 'e',  [20,30], [20, 10])
 
-    saveFile(merger)
-    merger.close()
-    
+# label frame under actionFrame
+labelFrame2 = Frame(a.getWindow(), 'raised', 1)
+labelFrame2.grid(3, 0, 's')
 
-# update the labels when pdfs are selected
-def updateLabels():
-    for x in labels:
-        tmp = labels[x]
-        logging.debug(f'deleting {labels[x]}')
-        tmp.destroy()
-    
-    i = 1
-    for x in filesDict:
-        # log key and value
-        logging.debug(f'key: {x}\tValue: {filesDict[x]}')
-        label = tk.Label(master=labelFrame, text=f'{filesDict[x]}')
-        label.grid(row=i, column=1)
-        labels[x] = label
-        i += 1
+l3 = Label(labelFrame2.getFrame(), \
+    '2+ PDFs required', 'red')
+l3.grid(1, 0, 'e')
 
-# configure window
-window = tk.Tk()
-window.title('PDF Merger')
-window.rowconfigure([0,1,2], weight=1, minsize=100)
-window.columnconfigure([0], weight=1, minsize=300)
+instances = [a.getWindow(), labelFrame.getFrame()]
 
-openFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-openFrame.grid(row=0, column=0, sticky='')
+# pass these instances to the gui package
+setInstance(instances)
 
-# TODO: Label
-text = tk.Label(master=openFrame,text="Open PDF files \N{RIGHTWARDS BLACK ARROW}")
-text.grid(row=0, column=0, sticky='nsew')
+a.getWindow().protocol('WM_DELETE_WINDOW', onClosing)
 
-# TODO: open file button
-openButton = tk.Button(master=openFrame,text="Open", command=openFile)
-openButton.grid(row=0, column=1, sticky='e')
-
-labelFrame = tk.Frame(master=window, relief=tk.RAISED, borderwidth=1)
-labelFrame.grid(row=1, column=0, sticky='n')
-
-actionFrame = tk.Frame(master=window)
-actionFrame.grid(row=2, column=0, sticky='')
-
-mergeButton = tk.Button(master=actionFrame, text='Merge', command=merge)
-mergeButton.grid(row=0, column=0)
-
-mergeLabel = tk.Label(master=actionFrame, text="2 or more PDFs \nrequired", fg="red")
-mergeLabel.grid(row=1, column=0)
-
-def show():
-    window.attributes('-topmost', 1)
-    window.attributes('-topmost', 0)
-    mb.showinfo(title='welcome', message='success')
-
-#window.after(500, show)
-window.mainloop()
-
-
+# main window loop
+a.mainloop()
