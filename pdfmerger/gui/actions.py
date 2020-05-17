@@ -27,9 +27,14 @@ def openFile():
         isTampered = True
 
     if isTampered:
-        updateLabels()
+        _updateLabels()
 
-def updateLabels():
+def merge():
+    merger = PyPDF2.PdfFileMerger()
+    _heapFiles(merger)
+    _closeFiles(merger) if _savePdf(merger) else None
+
+def _updateLabels():
     for x in labels:
         tmp = labels[x]
         tmp.getLabel().destroy()
@@ -42,12 +47,7 @@ def updateLabels():
         tmp.grid(index, 0)
         labels[file] = tmp
 
-def merge():
-    merger = PyPDF2.PdfFileMerger()
-    heapFiles(merger)
-    closeFiles(merger) if savePdf(merger) else None
-
-def heapFiles(merger):
+def _heapFiles(merger):
     '''
         opens files and add it to the heap (doesn't close)
         files are also appended on the merger object
@@ -58,7 +58,7 @@ def heapFiles(merger):
         logging.debug(f'heaped {filesHeap[x]}')
         merger.append(tmp)
 
-def savePdf(merger):
+def _savePdf(merger):
     filepath = asksaveasfilename(
         filetypes = [("PDF Files", "*.pdf"), ("All Files", "*.*")]
     )
@@ -70,7 +70,7 @@ def savePdf(merger):
 
     return True
 
-def closeFiles(merger):
+def _closeFiles(merger):
     '''
         Closes the files allocated on heap
     '''
