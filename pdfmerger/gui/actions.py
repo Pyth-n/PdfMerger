@@ -4,6 +4,8 @@ from . import labels, filesDict, filesHeap, parentInstance
 from .label import Label
 from ..lib.loggingC import logging
 
+merger = None
+
 def setInstance(windowI, frame):
     '''
     imports window and frame instance from top-level script
@@ -29,17 +31,26 @@ def openFile():
     if isTampered:
         _updateLabels()
 
+def clear():
+    '''
+    clears the labels, file heap, and the pdf merger from memory
+    '''
+    global merger
+    _closeFiles()
+    _destroyLabels()
+
+    if merger:
+        merger.close()
+
 def merge():
+    global merger
+
     merger = PyPDF2.PdfFileMerger()
     _heapFiles(merger)
-    _closeFiles(merger) if _savePdf(merger) else None
+    _closeFiles() or _destroyLabels() if _savePdf(merger) else None
     merger.close()
 
 def _updateLabels():
-    for x in labels:
-        tmp = labels[x]
-        tmp.getLabel().destroy()
-
     for index, file in enumerate(filesDict, start = 1):
         logging.info(filesDict[file])
 
@@ -71,7 +82,7 @@ def _savePdf(merger):
 
     return True
 
-def _closeFiles(merger):
+def _closeFiles():
     '''
         Closes the files allocated on heap
     '''
@@ -80,6 +91,7 @@ def _closeFiles(merger):
         filesHeap[x].close()
 
     filesHeap.clear()
+    filesDict.clear()
 
 def _destroyLabels():
     '''

@@ -5,7 +5,7 @@ from pdfmerger.gui.window import Window
 from pdfmerger.gui.frame import Frame
 from pdfmerger.gui.label import Label
 from pdfmerger.gui.button import Button
-from pdfmerger.gui.actions import openFile, setInstance, merge
+from pdfmerger.gui.actions import openFile, setInstance, merge, clear
 
 # main window
 a = Window('PDF Merger')
@@ -21,7 +21,6 @@ l.grid(0,0)
 b = Button(f.getFrame(), 'Open', openFile)
 b.grid(0, 1)
 
-
 # list of files frame
 labelFrame = Frame(a.getWindow(), 'raised', 1)
 labelFrame.grid(1, 0, 'n')
@@ -34,7 +33,7 @@ mergeButton = Button(actionFrame.getFrame(),"Merge\n \N{HEAVY CHECK MARK}", merg
 mergeButton.grid(0, 0, 'w', [20,30], [20, 10])
 
 clearButton = Button(actionFrame.getFrame(), \
-    'Clear\n \N{ERASE TO THE LEFT}')
+    'Clear\n \N{ERASE TO THE LEFT}', clear)
 clearButton.grid(0, 1, 'e',  [20,30], [20, 10])
 
 # label frame under actionFrame
