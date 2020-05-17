@@ -5,7 +5,7 @@ from pdfmerger.gui.window import Window
 from pdfmerger.gui.frame import Frame
 from pdfmerger.gui.label import Label
 from pdfmerger.gui.button import Button
-from pdfmerger.gui.actions import openFile, setInstance, merge, clear
+from pdfmerger.gui.actions import openFile, setInstance, merge, clear, onClosing
 
 # main window
 a = Window('PDF Merger')
@@ -48,6 +48,8 @@ instances = [a.getWindow(), labelFrame.getFrame()]
 
 # pass these instances to the gui package
 setInstance(instances)
+
+a.getWindow().protocol('WM_DELETE_WINDOW', onClosing)
 
 # main window loop
 a.mainloop()

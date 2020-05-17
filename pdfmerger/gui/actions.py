@@ -57,6 +57,15 @@ def merge():
     _closeFiles() or _destroyLabels() if _savePdf(merger) else None
     merger.close()
 
+def onClosing():
+    if len(filesDict) > 0:
+        if mb.askokcancel('Quit', 'Files are loaded, are you sure you want to quit?'):
+            parentInstance[0].destroy()
+        else:
+            _elevateWindow()
+    else:
+        parentInstance[0].destroy()
+
 def _updateLabels():
     for index, file in enumerate(filesDict, start = 1):
         logging.info(filesDict[file])
