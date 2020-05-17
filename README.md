@@ -2,7 +2,9 @@
 Merges given PDF files into a new combined PDF document.
 
 ## Requirements
-* [Install Python 3](https://www.python.org/downloads/) 
+* [Install Python 3](https://www.python.org/downloads/)
+
+* `pip3 install PyPDF2`
 
 * GUI runs on Windows, Mac OS, and Linux (with Python 3+ installed)
 
