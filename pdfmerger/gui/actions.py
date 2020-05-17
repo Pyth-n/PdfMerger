@@ -88,6 +88,8 @@ def _savePdf(merger):
     with open(filepath, 'wb') as f:
         merger.write(f)
 
+    mb.showinfo('Success', f'Your {len(filesHeap)} files were merged and saved at {filepath}')
+    _elevateWindow()
     return True
 
 def _closeFiles():
